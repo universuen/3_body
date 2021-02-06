@@ -43,6 +43,8 @@ class Particle:
         self.pos = position
         self.v = velocity
 
+        self._alive = True
+
     @property
     def momentum(self):
         return self.m * self.v
@@ -51,8 +53,17 @@ class Particle:
     def kinetic_energy(self):
         return 0.5 * self.m * (self.v.norm ** 2)
 
+    @property
+    def is_alive(self):
+        return self._alive
+
     def __str__(self):
         return f'Particle({self.m}, {self.pos}, {self.v})'
+
+    def remove(self):
+        self._alive = False
+        self.m = 0
+        self.v = Vector()
 
 
 def update_vec(vector: Vector, derivative: Vector):
