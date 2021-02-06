@@ -47,7 +47,7 @@ class PlayBoard:
             # calculate the coordinates
             self._update()
             generation -= 1
-            if generation % 800 == 0:
+            if generation % 300 == 0:
                 # show the particles
                 for i, line in enumerate(self.line_list):
                     plt.scatter(line[0], line[1], s=10 * (self.p_list[i].m / total_m))
