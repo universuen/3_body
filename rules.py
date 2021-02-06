@@ -16,6 +16,8 @@ def collide(p1: Particle, p2: Particle):
 # universal gravitation
 def gravitation(p1: Particle, p2: Particle):
     r = (p1.pos - p2.pos).norm
+    while r < any([p1.m * 100, p2.m * 100]):
+        r *= 10
     delta_pos = p2.pos - p1.pos
     force_scalar = G * p1.m * p2.m / r ** 2
     force = (delta_pos / r) * force_scalar
