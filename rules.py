@@ -17,8 +17,8 @@ def collide(p1: Particle, p2: Particle):
 def gravitation(p1: Particle, p2: Particle):
     r = (p1.pos - p2.pos).norm
     # if they get too close, the law will no longer work
-    if any([r < 0.1 * p1.m, r < 0.1 * p2.m]):
-        r *= 0.01 * p1.m * p2.m
+    # if any([r < 0.1 * p1.m, r < 0.1 * p2.m]):
+    #     r *= 0.01 * p1.m * p2.m
     delta_pos = p2.pos - p1.pos
     force_scalar = G * p1.m * p2.m / (r ** 2)
     force = (delta_pos / r) * force_scalar

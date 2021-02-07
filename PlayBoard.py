@@ -23,19 +23,20 @@ class PlayBoard:
         for i, p in enumerate(temp_list):
             if p.is_alive is False:
                 continue
-            # update position
-            pos = update_vec(p.pos, p.v)
-            a = Vector()
+
             # update velocity
+            a = Vector()
             for other_p in temp_list:
                 if other_p == p or other_p.is_alive is False:
                     continue
-                elif (other_p.pos - p.pos).norm < 0.1:
+                elif (other_p.pos - p.pos).norm < 1:
                     collide(p, other_p)
                     continue
                 else:
                     a += gravitation(p, other_p) / p.m
             v = update_vec(p.v, a)
+            # update position
+            pos = update_vec(p.pos, p.v)
             temp_list[i].pos = pos
             temp_list[i].v = v
             if self._update_cnt % 50 == 0:
