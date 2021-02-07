@@ -15,28 +15,37 @@ class PlayBoard:
 
     def _update(self):
         self._update_cnt += 1
-        for i, p in enumerate(self.p_list):
+
+        temp_list = self.p_list.copy()
+        for i, _ in enumerate(temp_list):
+            temp_list[i] = temp_list[i].copy()
+
+        for i, p in enumerate(temp_list):
             if p.is_alive is False:
                 continue
+            # update position
             pos = update_vec(p.pos, p.v)
             a = Vector()
-            for other_p in self.p_list:
+            # update velocity
+            for other_p in temp_list:
                 if other_p == p or other_p.is_alive is False:
                     continue
-                elif (other_p.pos - p.pos).norm < 0.001:
+                elif (other_p.pos - p.pos).norm < 0.1:
                     collide(p, other_p)
                     continue
                 else:
                     a += gravitation(p, other_p) / p.m
             v = update_vec(p.v, a)
-            p.pos = pos
+            temp_list[i].pos = pos
+            temp_list[i].v = v
             if self._update_cnt % 50 == 0:
-                self.line_list[i][0].append(p.pos.x)
-                self.line_list[i][1].append(p.pos.y)
+                self.line_list[i][0].append(pos.x)
+                self.line_list[i][1].append(pos.y)
                 if len(self.line_list[i][0]) > 1000:
                     self.line_list[i][0].pop(0)
                     self.line_list[i][1].pop(0)
-            p.v = v
+
+        self.p_list = temp_list.copy()
 
     def simulate(self, generation=-1):
         plt.ion()
@@ -47,7 +56,7 @@ class PlayBoard:
             # calculate the coordinates
             self._update()
             generation -= 1
-            if generation % 300 == 0:
+            if generation % 1000 == 0:
                 # show the particles
                 for i, line in enumerate(self.line_list):
                     plt.scatter(line[0], line[1], s=10 * (self.p_list[i].m / total_m))
@@ -55,3 +64,4 @@ class PlayBoard:
                 plt.show()
                 plt.pause(0.001)
                 plt.figure(1).clear()
+                # print([p.v.norm for p in self.p_list])

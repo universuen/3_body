@@ -65,6 +65,11 @@ class Particle:
         self.m = 0
         self.v = Vector()
 
+    def copy(self):
+        p = Particle(self.m, self.pos, self.v)
+        p._alive = self._alive
+        return p
+
 
 def update_vec(vector: Vector, derivative: Vector):
     delta = derivative * TIME_GRANULARITY
