@@ -1,2 +1,2 @@
-# 3_body
-Simulate the 3-body situation.
+# universal-gravitation
+A tiny phsics engine.
